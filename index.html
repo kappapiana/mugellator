@@ -98,10 +98,10 @@
                 return;
             }
 
-            const refMinA = parseInt(document.getElementById('refMinA').value);
-            const refSecA = parseFloat(document.getElementById('refSecA').value);
-            const refMinB = parseInt(document.getElementById('refMinB').value);
-            const refSecB = parseFloat(document.getElementById('refSecB').value);
+            const refMinA = parseInt(document.getElementById('refMinA').value);     // minutes are integers
+            const refSecA = parseFloat(document.getElementById('refSecA').value);   // seconds are floating
+            const refMinB = parseInt(document.getElementById('refMinB').value);     // minutes are integers
+            const refSecB = parseFloat(document.getElementById('refSecB').value);   // seconds are floating
 
             const timeA_seconds = refMinA * 60 + refSecA;
             const timeB_seconds = refMinB * 60 + refSecB;
@@ -120,7 +120,7 @@
         function convertSecondsToMinutesAndSeconds(totalSeconds) {
             const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
-            return `${minutes} minuti e ${seconds.toFixed(0)} secondi`;
+            return `${minutes} minuti e ${seconds.toFixed(0)} secondi`; // returns integer seconds
         }
 
         function convertiBtoA() {
