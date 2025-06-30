@@ -99,9 +99,9 @@
             }
 
             const refMinA = parseInt(document.getElementById('refMinA').value);
-            const refSecA = parseInt(document.getElementById('refSecA').value);
+            const refSecA = parseFloat(document.getElementById('refSecA').value);
             const refMinB = parseInt(document.getElementById('refMinB').value);
-            const refSecB = parseInt(document.getElementById('refSecB').value);
+            const refSecB = parseFloat(document.getElementById('refSecB').value);
 
             const timeA_seconds = refMinA * 60 + refSecA;
             const timeB_seconds = refMinB * 60 + refSecB;
