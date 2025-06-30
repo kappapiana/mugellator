@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertitore Tempi Pista</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: #0056b3;
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: calc(50% - 10px);
+            padding: 8px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            max-width: 10em;
+        }
+        button {
+            background-color: #8f0000;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+    
+        }
+        button:hover {
+            background-color: #d80606;
+        }
+        .result {
+            margin-top: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #28a745;
+            text-align: center;
+        }
+        .error {
+            color: #dc3545;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mugellatore</h1>
+
+        <div class="section">
+
+            <h3>Converte i tempi del Mugello in qualsiasi altra pista</h3>
+            
+            <p>Devi conoscere i tempi di riferimento di un pilota affidabile su entrambe le piste</p>
+            <p>Inserisci i tempi di riferimento (minuti e secondi) di un tempo per il <strong>Mugello</strong> e la Pista sconosciuta per calcolare il fattore di conversione.</p>
+            <p>Ad esempio: Canepa gira in 1:50 al Mugello e 2:21 a Spa. Inserisci 1:50 in Tempo di Riferimento Mugello e 2:21 in Tempo di riferimento Nuova Pista e calcola il fattore di conversione.</p>
+        </div>
+
+        <div class="section">
+            <h2>1. Calcola il Fattore di Conversione</h2>
+            
+            <label for="refMinA">Tempo di Riferimento <strong>Mugello</strong>:</label>
+            Minuti: <input type="number" id="refMinA" min="0" value="0">
+            Secondi: <input type="number" id="refSecA" min="0" max="59" value="0">
+            <div class="error" id="errorRefA"></div>
+
+            <label for="refMinB" style="margin-top: 15px;">Tempo di Riferimento <strong>Nuova Pista</strong>:</label>
+            Minuti: <input type="number" id="refMinB" min="0" value="0">
+            Secondi: <input type="number" id="refSecB" min="0" max="59" value="0">
+            <div class="error" id="errorRefB"></div>
+
+            <button onclick="calcolaFattore()">Calcola Fattore</button>
+            <div class="result" id="fattoreConversion">Fattore di Conversione: N/A</div>
+            <div class="error" id="errorFattore"></div>
+        </div>
+
+        <div class="section">
+            <h2>2. Converti Tempi</h2>
+            <p>Dopo aver calcolato il fattore di conversione, puoi convertire i tempi tra le due piste.</p>
+
+            <h3>Da <strong>Nuova Pista</strong> a <strong>Mugello</strong></h3>
+            <label for="inputMinB">Tempo Nuova Pista:</label>
+            Minuti: <input type="number" id="inputMinB" min="0" value="0">
+            Secondi: <input type="number" id="inputSecB" min="0" max="59" value="0">
+            <div class="error" id="errorInputB"></div>
+            <button onclick="convertiBtoA()">Converti Nuova Pista &rarr; Mugello</button>
+            <div class="result" id="outputA">Tempo Mugello: N/A</div>
+
+            <h3 style="margin-top: 25px;">Da <strong>Mugello</strong> a <strong>Nuova Pista</strong></h3>
+            <label for="inputMinA">Tempo Mugello:</label>
+            Minuti: <input type="number" id="inputMinA" min="0" value="0">
+            Secondi: <input type="number" id="inputSecA" min="0" max="59" value="0">
+            <div class="error" id="errorInputA"></div>
+            <button onclick="convertiAtoB()">Converti Mugello &rarr; Nuova Pista</button>
+            <div class="result" id="outputB">Tempo Nuova Pista: N/A</div>
+        </div>
+        <div>
+            <p><strong>Nota:</strong> Ho usato il Mugello perché il Mugello è il metro del pilota. In realtà, si può usare una qualsiasi coppia di tempi che si ritengono indicativi. </p>
+        </div>
+    </div>
+
+    <script>
+        let conversionFactor = null;
+
+        function clearErrors() {
+            document.getElementById('errorRefA').innerText = '';
+            document.getElementById('errorRefB').innerText = '';
+            document.getElementById('errorFattore').innerText = '';
+            document.getElementById('errorInputA').innerText = '';
+            document.getElementById('errorInputB').innerText = '';
+        }
+
+        function isValidTime(minId, secId, errorId) {
+            const minutes = parseInt(document.getElementById(minId).value);
+            const seconds = parseInt(document.getElementById(secId).value);
+
+            if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0 || seconds > 59) {
+                document.getElementById(errorId).innerText = 'Inserisci minuti e secondi validi (secondi da 0 a 59).';
+                return false;
+            }
+            return true;
+        }
+
+        function calcolaFattore() {
+            clearErrors();
+
+            if (!isValidTime('refMinA', 'refSecA', 'errorRefA') || !isValidTime('refMinB', 'refSecB', 'errorRefB')) {
+                return;
+            }
+
+            const refMinA = parseInt(document.getElementById('refMinA').value);
+            const refSecA = parseInt(document.getElementById('refSecA').value);
+            const refMinB = parseInt(document.getElementById('refMinB').value);
+            const refSecB = parseInt(document.getElementById('refSecB').value);
+
+            const timeA_seconds = refMinA * 60 + refSecA;
+            const timeB_seconds = refMinB * 60 + refSecB;
+
+            if (timeA_seconds <= 0 || timeB_seconds <= 0) {
+                document.getElementById('errorFattore').innerText = 'I tempi di riferimento devono essere maggiori di zero.';
+                conversionFactor = null;
+                document.getElementById('fattoreConversion').innerText = 'Fattore di Conversione: N/A';
+                return;
+            }
+
+            conversionFactor = timeB_seconds / timeA_seconds;
+            document.getElementById('fattoreConversion').innerText = `Fattore di Conversione: ${conversionFactor.toFixed(4)}`;
+        }
+
+        function convertSecondsToMinutesAndSeconds(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return `${minutes} minuti e ${seconds.toFixed(2)} secondi`;
+        }
+
+        function convertiBtoA() {
+            clearErrors();
+            if (conversionFactor === null) {
+                document.getElementById('errorInputB').innerText = 'Calcola prima il fattore di conversione.';
+                return;
+            }
+
+            if (!isValidTime('inputMinB', 'inputSecB', 'errorInputB')) {
+                return;
+            }
+
+            const inputMinB = parseInt(document.getElementById('inputMinB').value);
+            const inputSecB = parseInt(document.getElementById('inputSecB').value);
+
+            const timeB_seconds = inputMinB * 60 + inputSecB;
+            const convertedTimeA_seconds = timeB_seconds / conversionFactor;
+
+            document.getElementById('outputA').innerText = `Tempo Mugello>: ${convertSecondsToMinutesAndSeconds(convertedTimeA_seconds)}`;
+        }
+
+        function convertiAtoB() {
+            clearErrors();
+            if (conversionFactor === null) {
+                document.getElementById('errorInputA').innerText = 'Calcola prima il fattore di conversione.';
+                return;
+            }
+
+            if (!isValidTime('inputMinA', 'inputSecA', 'errorInputA')) {
+                return;
+            }
+
+            const inputMinA = parseInt(document.getElementById('inputMinA').value);
+            const inputSecA = parseInt(document.getElementById('inputSecA').value);
+
+            const timeA_seconds = inputMinA * 60 + inputSecA;
+            const convertedTimeB_seconds = timeA_seconds * conversionFactor;
+
+            document.getElementById('outputB').innerText = `Tempo Nuova Pista: ${convertSecondsToMinutesAndSeconds(convertedTimeB_seconds)}`;
+        }
+    </script>
+</body>
+</html>
