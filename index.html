@@ -26,13 +26,17 @@
             <h2>1. Calcola il Fattore di Conversione</h2>
             
             <label for="refMinA">Tempo di Riferimento <strong>Mugello</strong>:</label>
-            Minuti: <input type="number" id="refMinA" min="0" value="0">
-            Secondi: <input type="number" id="refSecA" min="0" max="59" value="0">
+            <div class="input-row">
+                <span>Minuti:</span> <input type="number" id="refMinA" min="0" value="0">
+                <span>Secondi:</span> <input type="number" id="refSecA" min="0" max="59" value="0">
+            </div>
             <div class="error" id="errorRefA"></div>
 
             <label for="refMinB" style="margin-top: 15px;">Tempo di Riferimento <strong>Nuova Pista</strong>:</label>
-            Minuti: <input type="number" id="refMinB" min="0" value="0">
-            Secondi: <input type="number" id="refSecB" min="0" max="59" value="0">
+            <div class="input-row">
+                <span>Minuti:</span> <input type="number" id="refMinB" min="0" value="0">
+                <span>Secondi:</span> <input type="number" id="refSecB" min="0" max="59" value="0">
+            </div>
             <div class="error" id="errorRefB"></div>
 
             <button onclick="calcolaFattore()">Calcola Fattore</button>
@@ -46,16 +50,20 @@
 
             <h3>Da <strong>Nuova Pista</strong> a <strong>Mugello</strong></h3>
             <label for="inputMinB">Tempo Nuova Pista:</label>
-            Minuti: <input type="number" id="inputMinB" min="0" value="0">
-            Secondi: <input type="number" id="inputSecB" min="0" max="59" value="0">
+            <div class="input-row">
+                <span>Minuti:</span> <input type="number" id="inputMinB" min="0" value="0">
+                <span>Secondi:</span> <input type="number" id="inputSecB" min="0" max="59" value="0">
+            </div>
             <div class="error" id="errorInputB"></div>
             <button onclick="convertiBtoA()">Converti Nuova Pista &rarr; Mugello</button>
             <div class="result" id="outputA">Tempo Mugello: N/A</div>
 
             <h3 style="margin-top: 25px;">Da <strong>Mugello</strong> a <strong>Nuova Pista</strong></h3>
             <label for="inputMinA">Tempo Mugello:</label>
-            Minuti: <input type="number" id="inputMinA" min="0" value="0">
-            Secondi: <input type="number" id="inputSecA" min="0" max="59" value="0">
+            <div class="input-row">
+                <span>Minuti:</span> <input type="number" id="inputMinA" min="0" value="0">
+                <span>Secondi:</span> <input type="number" id="inputSecA" min="0" max="59" value="0">
+            </div>
             <div class="error" id="errorInputA"></div>
             <button onclick="convertiAtoB()">Converti Mugello &rarr; Nuova Pista</button>
             <div class="result" id="outputB">Tempo Nuova Pista: N/A</div>
@@ -83,10 +91,10 @@
 
         function isValidTime(minId, secId, errorId) {
             const minutes = parseInt(document.getElementById(minId).value);
-            const seconds = parseInt(document.getElementById(secId).value);
+            const seconds = parseFloat(document.getElementById(secId).value); // Use parseFloat for seconds
 
-            if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0 || seconds > 59) {
-                document.getElementById(errorId).innerText = 'Inserisci minuti e secondi validi (secondi da 0 a 59).';
+            if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0 || seconds >= 60) { // seconds up to 59.999...
+                document.getElementById(errorId).innerText = 'Inserisci minuti e secondi validi (secondi da 0 a 59.99).';
                 return false;
             }
             return true;
@@ -121,7 +129,7 @@
         function convertSecondsToMinutesAndSeconds(totalSeconds) {
             const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
-            return `${minutes} minuti e ${seconds.toFixed(0)} secondi`; // returns integer seconds
+            return `${minutes} minuti e ${seconds.toFixed(2)} secondi`; // returns seconds with 2 decimal places
         }
 
         function convertiBtoA() {
@@ -136,7 +144,7 @@
             }
 
             const inputMinB = parseInt(document.getElementById('inputMinB').value);
-            const inputSecB = parseInt(document.getElementById('inputSecB').value);
+            const inputSecB = parseFloat(document.getElementById('inputSecB').value); // Use parseFloat for seconds
 
             const timeB_seconds = inputMinB * 60 + inputSecB;
             const convertedTimeA_seconds = timeB_seconds / conversionFactor;
@@ -156,7 +164,7 @@
             }
 
             const inputMinA = parseInt(document.getElementById('inputMinA').value);
-            const inputSecA = parseInt(document.getElementById('inputSecA').value);
+            const inputSecA = parseFloat(document.getElementById('inputSecA').value); // Use parseFloat for seconds
 
             const timeA_seconds = inputMinA * 60 + inputSecA;
             const convertedTimeB_seconds = timeA_seconds * conversionFactor;
