@@ -5,81 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="license" content="SPDX-License-Identifier: CC0-1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Convertitore Tempi Pista</title>
+    <title data-key="pageTitle">Convertitore Tempi Pista</title>
 
 </head>
 <body>
     <div class="container">
-        <h1>Mugellatore</h1>
+        <h1 data-key="appTitle">Mugellatore</h1>
 
-        <div class="section">
-
-            <h3>Converte i tempi del Mugello in qualsiasi altra pista</h3>
-            
-            <p>Devi conoscere i tempi di riferimento di un pilota affidabile su entrambe le piste</p>
-            <p>Inserisci i tempi di riferimento (minuti e secondi) di un tempo per il <strong>Mugello</strong> e la Pista sconosciuta per calcolare il fattore di conversione.</p>
-            <p>Ad esempio: Canepa gira in 1:50 al Mugello e 2:21 a Spa. Inserisci 1:50 in Tempo di Riferimento Mugello e 2:21 in Tempo di riferimento Nuova Pista e calcola il fattore di conversione.</p>
-            <p>I secondi possono essere inseriti come decimali con il punto o con la virgola (es: 7 secondi e due decimi = 7.2)</p>
+        <div class="language-selector">
+            <label for="language-select" data-key="selectLanguage">Select Language:</label>
+            <select id="language-select" onchange="setLanguage(this.value)">
+                <option value="it">Italiano</option>
+                <option value="en">English</option>
+            </select>
         </div>
 
         <div class="section">
-            <h2>1. Calcola il Fattore di Conversione</h2>
-            
-            <label for="refMinA">Tempo di Riferimento <strong>Mugello</strong>:</label>
+            <h3 data-key="section1Heading">Converte i tempi del Mugello in qualsiasi altra pista</h3>
+
+            <p data-key="section1Text1">Devi conoscere i tempi di riferimento di un pilota affidabile su entrambe le piste</p>
+            <p data-key="section1Text2">Inserisci i tempi di riferimento (minuti e secondi) di un tempo per il <strong>Mugello</strong> e la Pista sconosciuta per calcolare il fattore di conversione.</p>
+            <p data-key="section1Text3">Ad esempio: Canepa gira in 1:50 al Mugello e 2:21 a Spa. Inserisci 1:50 in Tempo di Riferimento Mugello e 2:21 in Tempo di riferimento Nuova Pista e calcola il fattore di conversione.</p>
+            <p data-key="section1Text4">I secondi possono essere inseriti come decimali con il punto o con la virgola (es: 7 secondi e due decimi = 7.2)</p>
+        </div>
+
+        <div class="section">
+            <h2 data-key="calculateFactorHeading">1. Calcola il Fattore di Conversione</h2>
+
+            <label for="refMinA" data-key="refTimeMugello">Tempo di Riferimento <strong>Mugello</strong>:</label>
             <div class="input-row">
-                <span>Minuti:</span> <input type="number" id="refMinA" min="0" value="0">
-                <span>Secondi:</span> <input type="number" id="refSecA" min="0" max="59" value="0">
+                <span data-key="minLabel">Minuti:</span> <input type="number" id="refMinA" min="0" value="0">
+                <span data-key="secLabel">Secondi:</span> <input type="number" id="refSecA" min="0" max="59" value="0">
             </div>
             <div class="error" id="errorRefA"></div>
 
-            <label for="refMinB" style="margin-top: 15px;">Tempo di Riferimento <strong>Nuova Pista</strong>:</label>
+            <label for="refMinB" style="margin-top: 15px;" data-key="refTimeNewTrack">Tempo di Riferimento <strong>Nuova Pista</strong>:</label>
             <div class="input-row">
-                <span>Minuti:</span> <input type="number" id="refMinB" min="0" value="0">
-                <span>Secondi:</span> <input type="number" id="refSecB" min="0" max="59" value="0">
+                <span data-key="minLabel">Minuti:</span> <input type="number" id="refMinB" min="0" value="0">
+                <span data-key="secLabel">Secondi:</span> <input type="number" id="refSecB" min="0" max="59" value="0">
             </div>
             <div class="error" id="errorRefB"></div>
 
-            <button onclick="calcolaFattore()">Calcola Fattore</button>
-            <div class="result" id="fattoreConversion">Fattore di Conversione: N/A</div>
+            <button onclick="calcolaFattore()" data-key="calculateFactorButton">Calcola Fattore</button>
+            <div class="result" id="fattoreConversion" data-key="conversionFactorResult">Fattore di Conversione: N/A</div>
             <div class="error" id="errorFattore"></div>
         </div>
 
         <div class="section">
-            <h2>2. Converti Tempi</h2>
-            <p>Dopo aver calcolato il fattore di conversione, puoi convertire i tempi tra le due piste.</p>
+            <h2 data-key="convertTimesHeading">2. Converti Tempi</h2>
+            <p data-key="convertTimesIntro">Dopo aver calcolato il fattore di conversione, puoi convertire i tempi tra le due piste.</p>
 
-            <h3>Da <strong>Nuova Pista</strong> a <strong>Mugello</strong></h3>
-            <label for="inputMinB">Tempo Nuova Pista:</label>
+            <h3 data-key="newToMugelloHeading">Da <strong>Nuova Pista</strong> a <strong>Mugello</strong></h3>
+            <label for="inputMinB" data-key="inputNewTrackTime">Tempo Nuova Pista:</label>
             <div class="input-row">
-                <span>Minuti:</span> <input type="number" id="inputMinB" min="0" value="0">
-                <span>Secondi:</span> <input type="number" id="inputSecB" min="0" max="59" value="0">
+                <span data-key="minLabel">Minuti:</span> <input type="number" id="inputMinB" min="0" value="0">
+                <span data-key="secLabel">Secondi:</span> <input type="number" id="inputSecB" min="0" max="59" value="0">
             </div>
             <div class="error" id="errorInputB"></div>
-            <button onclick="convertiBtoA()">Converti Nuova Pista &rarr; Mugello</button>
-            <div class="result" id="outputA">Tempo Mugello: N/A</div>
+            <button onclick="convertiBtoA()" data-key="convertNewToMugelloButton">Converti Nuova Pista &rarr; Mugello</button>
+            <div class="result" id="outputA" data-key="outputAMugello">Tempo Mugello: N/A</div>
 
-            <h3 style="margin-top: 25px;">Da <strong>Mugello</strong> a <strong>Nuova Pista</strong></h3>
-            <label for="inputMinA">Tempo Mugello:</label>
+            <h3 style="margin-top: 25px;" data-key="mugelloToNewHeading">Da <strong>Mugello</strong> a <strong>Nuova Pista</strong></h3>
+            <label for="inputMinA" data-key="inputMugelloTime">Tempo Mugello:</label>
             <div class="input-row">
-                <span>Minuti:</span> <input type="number" id="inputMinA" min="0" value="0">
-                <span>Secondi:</span> <input type="number" id="inputSecA" min="0" max="59" value="0">
+                <span data-key="minLabel">Minuti:</span> <input type="number" id="inputMinA" min="0" value="0">
+                <span data-key="secLabel">Secondi:</span> <input type="number" id="inputSecA" min="0" max="59" value="0">
             </div>
             <div class="error" id="errorInputA"></div>
-            <button onclick="convertiAtoB()">Converti Mugello &rarr; Nuova Pista</button>
-            <div class="result" id="outputB">Tempo Nuova Pista: N/A</div>
+            <button onclick="convertiAtoB()" data-key="convertMugelloToNewButton">Converti Mugello &rarr; Nuova Pista</button>
+            <div class="result" id="outputB" data-key="outputBNewTrack">Tempo Nuova Pista: N/A</div>
         </div>
         <div>
-            <p><strong>Nota:</strong> Ho usato il Mugello perché il Mugello è il metro del pilota. In realtà, si può usare una qualsiasi coppia di tempi che si ritengono indicativi. </p>
+            <p data-key="noteText"><strong>Nota:</strong> Ho usato il Mugello perché il Mugello è il metro del pilota. In realtà, si può usare una qualsiasi coppia di tempi che si ritengono indicativi. </p>
         </div>
 
-        <div class="fottinote"> 
-                <p>Contribute to improve and mercilessly fork it on <a href="https://github.com/kappapiana/mugellator/tree/main">github</a></p>
+        <div class="fottinote">
+                <p data-key="githubLink">Contribute to improve and mercilessly fork it on <a href="https://github.com/kappapiana/mugellator/tree/main">github</a></p>
         </div>
     </div>
 
 
     <script>
         let conversionFactor = null;
+
+        // Translation object
+        const translations = {
+            'en': {
+                pageTitle: 'Track Time Converter',
+                appTitle: 'Mugellator',
+                selectLanguage: 'Seleziona lingua:',
+                section1Heading: 'Converts Mugello times to any other track',
+                section1Text1: 'You need to know the reference times of a reliable rider on both tracks',
+                section1Text2: 'Enter the reference times (minutes and seconds) for Mugello and the unknown track to calculate the conversion factor.',
+                section1Text3: 'For example: Canepa laps Mugello in 1:50 and Spa in 2:21. Enter 1:50 in Reference Time Mugello and 2:21 in Reference Time New Track and calculate the conversion factor.',
+                section1Text4: 'Seconds can be entered as decimals with a dot or comma (e.g.: 7 seconds and two tenths = 7.2)',
+                calculateFactorHeading: '1. Calculate Conversion Factor',
+                refTimeMugello: 'Reference Time <strong>Mugello</strong>:',
+                refTimeNewTrack: 'Reference Time <strong>New Track</strong>:',
+                calculateFactorButton: 'Calculate Factor',
+                conversionFactorResult: 'Conversion Factor: N/A',
+                minLabel: 'Minutes:',
+                secLabel: 'Seconds:',
+                invalidTimeError: 'Please enter valid minutes and seconds (seconds from 0 to 59.99).',
+                mustBePositiveError: 'Reference times must be greater than zero.',
+                convertTimesHeading: '2. Convert Times',
+                convertTimesIntro: 'After calculating the conversion factor, you can convert times between the two tracks.',
+                newToMugelloHeading: 'From <strong>New Track</strong> to <strong>Mugello</strong>',
+                inputNewTrackTime: 'New Track Time:',
+                convertNewToMugelloButton: 'Convert New Track &rarr; Mugello',
+                outputAMugello: 'Mugello Time: N/A',
+                mugelloToNewHeading: 'From <strong>Mugello</strong> to <strong>New Track</strong>',
+                inputMugelloTime: 'Mugello Time:',
+                convertMugelloToNewButton: 'Convert Mugello &rarr; New Track',
+                outputBNewTrack: 'New Track Time: N/A',
+                calculateFactorFirstError: 'Calculate the conversion factor first.',
+                noteText: '<strong>Note:</strong> I used Mugello because Mugello is the rider\'s benchmark. In reality, you can use any pair of times that you consider indicative.',
+                githubLink: 'Contribute to improve and mercilessly fork it on <a href="https://github.com/kappapiana/mugellator/tree/main">github</a>'
+            },
+            'it': {
+                pageTitle: 'Convertitore Tempi Pista',
+                appTitle: 'Mugellatore',
+                selectLanguage: 'Select Language:',
+                section1Heading: 'Converte i tempi del Mugello in qualsiasi altra pista',
+                section1Text1: 'Devi conoscere i tempi di riferimento di un pilota affidabile su entrambe le piste',
+                section1Text2: 'Inserisci i tempi di riferimento (minuti e secondi) di un tempo per il <strong>Mugello</strong> e la Pista sconosciuta per calcolare il fattore di conversione.',
+                section1Text3: 'Ad esempio: Canepa gira in 1:50 al Mugello e 2:21 a Spa. Inserisci 1:50 in Tempo di Riferimento Mugello e 2:21 in Tempo di riferimento Nuova Pista e calcola il fattore di conversione.',
+                section1Text4: 'I secondi possono essere inseriti come decimali con il punto o con la virgola (es: 7 secondi e due decimi = 7.2)',
+                calculateFactorHeading: '1. Calcola il Fattore di Conversione',
+                refTimeMugello: 'Tempo di Riferimento <strong>Mugello</strong>:',
+                refTimeNewTrack: 'Tempo di Riferimento <strong>Nuova Pista</strong>:',
+                calculateFactorButton: 'Calcola Fattore',
+                conversionFactorResult: 'Fattore di Conversione: N/A',
+                minLabel: 'Minuti:',
+                secLabel: 'Secondi:',
+                invalidTimeError: 'Inserisci minuti e secondi validi (secondi da 0 a 59.99).',
+                mustBePositiveError: 'I tempi di riferimento devono essere maggiori di zero.',
+                convertTimesHeading: '2. Converti Tempi',
+                convertTimesIntro: 'Dopo aver calcolato il fattore di conversione, puoi convertire i tempi tra le due piste.',
+                newToMugelloHeading: 'Da <strong>Nuova Pista</strong> a <strong>Mugello</strong>',
+                inputNewTrackTime: 'Tempo Nuova Pista:',
+                convertNewToMugelloButton: 'Converti Nuova Pista &rarr; Mugello',
+                outputAMugello: 'Tempo Mugello: N/A',
+                mugelloToNewHeading: 'Da <strong>Mugello</strong> a <strong>Nuova Pista</strong>',
+                inputMugelloTime: 'Tempo Mugello:',
+                convertMugelloToNewButton: 'Converti Mugello &rarr; Nuova Pista',
+                outputBNewTrack: 'Tempo Nuova Pista: N/A',
+                calculateFactorFirstError: 'Calcola prima il fattore di conversione.',
+                noteText: '<strong>Nota:</strong> Ho usato il Mugello perché il Mugello è il metro del pilota. In realtà, si può usare una qualsiasi coppia di tempi che si ritengono indicativi.',
+                githubLink: 'Contribute to improve and mercilessly fork it on <a href="https://github.com/kappapiana/mugellator/tree/main">github</a>'
+            }
+        };
+
+        // Function to set the language for all elements with data-key attributes
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    // Special handling for elements with inner HTML (like strong tags or links)
+                    // Added `convertNewToMugelloButton` and `convertMugelloToNewButton` here.
+                    if (key === 'refTimeMugello' || key === 'refTimeNewTrack' ||
+                        key === 'newToMugelloHeading' || key === 'mugelloToNewHeading' ||
+                        key === 'noteText' || key === 'githubLink' ||
+                        key === 'convertNewToMugelloButton' || key === 'convertMugelloToNewButton') {
+                        element.innerHTML = translations[lang][key];
+                    } else if (key === 'pageTitle') {
+                        document.title = translations[lang][key];
+                    }
+                    else {
+                        element.innerText = translations[lang][key];
+                    }
+                }
+            });
+
+            // Update the default text for results that might be N/A
+            const currentLang = document.getElementById('language-select').value;
+            if (conversionFactor === null) {
+                document.getElementById('fattoreConversion').innerText = translations[currentLang].conversionFactorResult;
+            } else {
+                 // Split the string and reconstruct to handle dynamic value correctly
+                 document.getElementById('fattoreConversion').innerText = `${translations[currentLang].conversionFactorResult.split(':')[0]}: ${conversionFactor.toFixed(4)}`;
+            }
+            // Update initial states of output fields with translated "N/A"
+            document.getElementById('outputA').innerText = translations[currentLang].outputAMugello;
+            document.getElementById('outputB').innerText = translations[currentLang].outputBNewTrack;
+
+            clearErrors(); // Clear any existing error messages as they might be in the old language
+        }
 
         function clearErrors() {
             document.getElementById('errorRefA').innerText = '';
@@ -92,9 +203,10 @@
         function isValidTime(minId, secId, errorId) {
             const minutes = parseInt(document.getElementById(minId).value);
             const seconds = parseFloat(document.getElementById(secId).value); // Use parseFloat for seconds
+            const currentLang = document.getElementById('language-select').value;
 
             if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0 || seconds >= 60) { // seconds up to 59.999...
-                document.getElementById(errorId).innerText = 'Inserisci minuti e secondi validi (secondi da 0 a 59.99).';
+                document.getElementById(errorId).innerText = translations[currentLang].invalidTimeError;
                 return false;
             }
             return true;
@@ -102,40 +214,48 @@
 
         function calcolaFattore() {
             clearErrors();
+            const currentLang = document.getElementById('language-select').value;
 
             if (!isValidTime('refMinA', 'refSecA', 'errorRefA') || !isValidTime('refMinB', 'refSecB', 'errorRefB')) {
                 return;
             }
 
-            const refMinA = parseInt(document.getElementById('refMinA').value);     // minutes are integers
-            const refSecA = parseFloat(document.getElementById('refSecA').value);   // seconds are floating
-            const refMinB = parseInt(document.getElementById('refMinB').value);     // minutes are integers
-            const refSecB = parseFloat(document.getElementById('refSecB').value);   // seconds are floating
+            const refMinA = parseInt(document.getElementById('refMinA').value);
+            const refSecA = parseFloat(document.getElementById('refSecA').value);
+            const refMinB = parseInt(document.getElementById('refMinB').value);
+            const refSecB = parseFloat(document.getElementById('refSecB').value);
 
             const timeA_seconds = refMinA * 60 + refSecA;
             const timeB_seconds = refMinB * 60 + refSecB;
 
             if (timeA_seconds <= 0 || timeB_seconds <= 0) {
-                document.getElementById('errorFattore').innerText = 'I tempi di riferimento devono essere maggiori di zero.';
+                document.getElementById('errorFattore').innerText = translations[currentLang].mustBePositiveError;
                 conversionFactor = null;
-                document.getElementById('fattoreConversion').innerText = 'Fattore di Conversione: N/A';
+                document.getElementById('fattoreConversion').innerText = translations[currentLang].conversionFactorResult; // Use the base N/A string
                 return;
             }
 
             conversionFactor = timeB_seconds / timeA_seconds;
-            document.getElementById('fattoreConversion').innerText = `Fattore di Conversione: ${conversionFactor.toFixed(4)}`;
+            // Update the conversion factor display with the localized prefix
+            document.getElementById('fattoreConversion').innerText = `${translations[currentLang].conversionFactorResult.split(':')[0]}: ${conversionFactor.toFixed(4)}`;
         }
 
-        function convertSecondsToMinutesAndSeconds(totalSeconds) {
+        // Helper function to convert seconds to minutes and seconds with localized labels
+        function convertSecondsToMinutesAndSeconds(totalSeconds, lang) {
             const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
-            return `${minutes} minuti e ${seconds.toFixed(2)} secondi`; // returns seconds with 2 decimal places
+            // Remove ':' from labels for display in sentence if they exist in the translation key
+            const minutesLabel = translations[lang].minLabel.replace(':', '');
+            const secondsLabel = translations[lang].secLabel.replace(':', '');
+            return `${minutes} ${minutesLabel.toLowerCase()} e ${seconds.toFixed(2)} ${secondsLabel.toLowerCase()}`;
         }
 
         function convertiBtoA() {
             clearErrors();
+            const currentLang = document.getElementById('language-select').value;
+
             if (conversionFactor === null) {
-                document.getElementById('errorInputB').innerText = 'Calcola prima il fattore di conversione.';
+                document.getElementById('errorInputB').innerText = translations[currentLang].calculateFactorFirstError;
                 return;
             }
 
@@ -149,13 +269,17 @@
             const timeB_seconds = inputMinB * 60 + inputSecB;
             const convertedTimeA_seconds = timeB_seconds / conversionFactor;
 
-            document.getElementById('outputA').innerText = `Tempo Mugello: ${convertSecondsToMinutesAndSeconds(convertedTimeA_seconds)}`;
+            // Update the output with the localized prefix and formatted time
+            // Use split(':') to get the part before "N/A" for the label
+            document.getElementById('outputA').innerText = `${translations[currentLang].outputAMugello.split(':')[0]}: ${convertSecondsToMinutesAndSeconds(convertedTimeA_seconds, currentLang)}`;
         }
 
         function convertiAtoB() {
             clearErrors();
+            const currentLang = document.getElementById('language-select').value;
+
             if (conversionFactor === null) {
-                document.getElementById('errorInputA').innerText = 'Calcola prima il fattore di conversione.';
+                document.getElementById('errorInputA').innerText = translations[currentLang].calculateFactorFirstError;
                 return;
             }
 
@@ -169,8 +293,20 @@
             const timeA_seconds = inputMinA * 60 + inputSecA;
             const convertedTimeB_seconds = timeA_seconds * conversionFactor;
 
-            document.getElementById('outputB').innerText = `Tempo Nuova Pista: ${convertSecondsToMinutesAndSeconds(convertedTimeB_seconds)}`;
+            // Update the output with the localized prefix and formatted time
+            // Use split(':') to get the part before "N/A" for the label
+            document.getElementById('outputB').innerText = `${translations[currentLang].outputBNewTrack.split(':')[0]}: ${convertSecondsToMinutesAndSeconds(convertedTimeB_seconds, currentLang)}`;
         }
+
+        // Call setLanguage on page load to set initial language (e.g., based on browser preference or default)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Attempt to get browser language, default to 'it' if not found or supported
+            const userLang = navigator.language.split('-')[0]; // 'en-US' -> 'en'
+            const initialLang = translations[userLang] ? userLang : 'it';
+
+            document.getElementById('language-select').value = initialLang;
+            setLanguage(initialLang);
+        });
     </script>
 </body>
 </html>
