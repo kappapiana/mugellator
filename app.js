@@ -70,24 +70,19 @@ const translations = {
     }
 };
 
-// Keys that require innerHTML (contain HTML like <strong> or <a>)
-const HTML_KEYS = new Set([
-    'refTimeMugello', 'refTimeNewTrack', 'newToMugelloHeading', 'mugelloToNewHeading',
-    'noteText', 'githubLink', 'convertNewToMugelloButton', 'convertMugelloToNewButton'
-]);
-
 function setLanguage(lang) {
     document.documentElement.lang = lang;
 
     document.querySelectorAll('[data-key]').forEach(element => {
         const key = element.getAttribute('data-key');
-        if (translations[lang] && translations[lang][key]) {
-            if (HTML_KEYS.has(key)) {
-                element.innerHTML = translations[lang][key];
-            } else if (key === 'pageTitle') {
-                document.title = translations[lang][key];
+        const text = translations[lang] && translations[lang][key];
+        if (text) {
+            if (key === 'pageTitle') {
+                document.title = text;
+            } else if (text.includes('<')) {
+                element.innerHTML = text;
             } else {
-                element.innerText = translations[lang][key];
+                element.innerText = text;
             }
         }
     });
