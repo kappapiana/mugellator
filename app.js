@@ -79,7 +79,7 @@ function setLanguage(lang) {
         if (text) {
             if (key === 'pageTitle') {
                 document.title = text;
-            } else if (text.includes('<')) {
+            } else if (text.includes('<') || text.includes('&')) {
                 element.innerHTML = text;
             } else {
                 element.innerText = text;
